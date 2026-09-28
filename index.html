@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="HostelMate is a simple and professional hostel expense tracker that helps students track expenses, split bills with roommates, manage settlements and analyze monthly spending."
+    />
+    <meta
+      name="keywords"
+      content="hostel expense tracker, student expense tracker, roommate expense tracker, hostel budget tracker, expense splitter for students, college expense tracker, roommate bill splitter"
+    />
+    <meta name="theme-color" content="#0f172a" />
+    <meta property="og:title" content="HostelMate – Hostel Expense Tracker for Students" />
+    <meta
+      property="og:description"
+      content="Track expenses, split bills with roommates, manage settlements and analyze monthly spending with HostelMate."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourusername.github.io/HostelMate/" />
+    <meta property="og:image" content="assets/favicon.svg" />
+    <link rel="canonical" href="https://yourusername.github.io/HostelMate/" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <title>HostelMate – Hostel Expense Tracker for Students</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark">HM</div>
+          <div>
+            <h1>HostelMate</h1>
+            <p>Track. Split. Settle.</p>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Main navigation">
+          <button class="nav-item active" data-view="dashboard">
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item" data-view="expenses">
+            <i class="fa-solid fa-receipt"></i>
+            <span>Expenses</span>
+          </button>
+          <button class="nav-item" data-view="add-expense">
+            <i class="fa-solid fa-circle-plus"></i>
+            <span>Add Expense</span>
+          </button>
+          <button class="nav-item" data-view="roommates">
+            <i class="fa-solid fa-users"></i>
+            <span>Roommates</span>
+          </button>
+          <button class="nav-item" data-view="settlements">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+            <span>Settlements</span>
+          </button>
+          <button class="nav-item" data-view="analytics">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Analytics</span>
+          </button>
+          <button class="nav-item" data-view="monthly-history">
+            <i class="fa-solid fa-calendar-alt"></i>
+            <span>Monthly History</span>
+          </button>
+          <button class="nav-item" data-view="settings">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+          </button>
+          <button class="nav-item" data-view="about">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>About</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-card">
+          <p class="sidebar-label">Storage</p>
+          <strong>Local browser data</strong>
+          <small>Your hostel data stays on this device.</small>
+        </div>
+      </aside>
+
+      <div class="main-panel">
+        <header class="topbar">
+          <div class="topbar-left">
+            <button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu" aria-controls="sidebar" aria-expanded="false">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+            <div>
+              <p class="eyebrow">Expense overview</p>
+              <h2 id="pageTitle">Dashboard</h2>
+            </div>
+          </div>
+
+          <div class="topbar-actions">
+            <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">
+              <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="primary-btn" data-view="add-expense">
+              <i class="fa-solid fa-plus"></i>
+              Add Expense
+            </button>
+          </div>
+        </header>
+
+        <main class="content-wrap">
+          <section class="view active" id="dashboard-view">
+            <div class="hero-card">
+              <div>
+                <p class="eyebrow">Good day for tracking</p>
+                <h3 id="greeting">Good Evening, Bhuwan Goyal 👋</h3>
+                <p class="subtitle">Here’s your expense overview.</p>
+              </div>
+              <div class="hero-summary">
+                <span class="badge neutral">Live Summary</span>
+              </div>
+            </div>
+
+            <div class="stats-grid" id="dashboardStats"></div>
+
+            <section class="panel budget-panel" aria-labelledby="budgetTitle">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">This month</p>
+                  <h3 id="budgetTitle">Monthly Budget</h3>
+                </div>
+                <strong id="budgetLimitLabel">₹600.00</strong>
+              </div>
+              <div class="budget-progress-track" role="progressbar" aria-label="Monthly budget used" aria-valuemin="0" aria-valuemax="100">
+                <div id="budgetProgressBar" class="budget-progress-bar"></div>
+              </div>
+              <div class="budget-summary">
+                <span id="budgetSpentLabel">Spent ₹0.00</span>
+                <strong id="budgetRemainingLabel">₹600.00 remaining</strong>
+              </div>
+              <p id="budgetStatus" class="muted" aria-live="polite"></p>
+            </section>
+
+            <div class="content-grid two-col">
+              <div class="panel">
+                <div class="panel-header">
+                  <h3>Recent Expenses</h3>
+                  <button class="text-btn" data-view="expenses">View all</button>
+                </div>
+                <div id="recentExpensesList" class="list-block"></div>
+              </div>
+
+              <div class="panel">
+                <div class="panel-header">
+                  <h3>Upcoming Settlements</h3>
+                  <button class="text-btn" data-view="settlements">Open</button>
+                </div>
+                <div id="upcomingSettlementsList" class="list-block"></div>
+              </div>
+            </div>
+
+            <div class="panel chart-panel">
+              <div class="panel-header">
+                <h3>Spending Overview</h3>
+              </div>
+              <div class="chart-wrap chart-lg">
+                <canvas id="dashboardChart"></canvas>
+              </div>
+            </div>
+          </section>
+
+          <section class="view" id="expenses-view">
+            <div class="page-header">
+              <div>
+                <p class="eyebrow">Expense list</p>
+                <h3>All Expenses</h3>
+              </div>
+            </div>
+
+            <div class="panel filter-panel">
+              <div class="filter-row">
+                <div class="search-box">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input id="expenseSearch" type="search" aria-label="Search expenses" placeholder="Search by title, category or person" />
+                </div>
+                <select id="expenseCategoryFilter">
+                  <option value="all">All Categories</option>
+                </select>
+                <input id="expenseDateFilter" type="date" />
+                <select id="expensePersonFilter">
+                  <option value="all">All Roommates</option>
+                </select>
+                <select id="expenseSort">
+                  <option value="newest">Sort: Newest</option>
+                  <option value="oldest">Sort: Oldest</option>
+                  <option value="highest">Sort: Highest Amount</option>
+                  <option value="lowest">Sort: Lowest Amount</option>
+                </select>
+                <button class="secondary-btn" id="clearExpenseFilters" type="button">Clear filters</button>
+              </div>
+            </div>
+
+            <div class="table-wrap panel">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Paid By</th>
+                    <th>Date</th>
+                    <th>Split</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="expensesTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="view" id="add-expense-view">
+            <div class="page-header">
+              <div>
+                <p class="eyebrow">Add new</p>
+                <h3>Add Expense</h3>
+              </div>
+            </div>
+
+            <div class="panel form-panel">
+              <form id="expenseForm" class="stacked-form">
+                <div class="form-grid two-col">
+                  <label>
+                    <span>Expense Title</span>
+                    <input name="title" type="text" placeholder="Milk, Groceries, Internet..." required />
+                  </label>
+
+                  <label>
+                    <span>Amount</span>
+                    <input name="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required />
+                  </label>
+
+                  <label>
+                    <span>Category</span>
+                    <select name="category" required></select>
+                  </label>
+
+                  <label>
+                    <span>Paid By</span>
+                    <select name="paidBy" required></select>
+                  </label>
+
+                  <label>
+                    <span>Date</span>
+                    <input name="date" type="date" required />
+                  </label>
+
+                  <label>
+                    <span>Split Between</span>
+                    <div id="splitCheckboxes" class="checkbox-group"></div>
+                  </label>
+                </div>
+
+                <label>
+                  <span>Notes</span>
+                  <textarea name="notes" rows="4" placeholder="Optional notes or context"></textarea>
+                </label>
+
+                <div class="form-actions">
+                  <button type="submit" class="primary-btn">Save Expense</button>
+                  <button type="button" class="secondary-btn" id="resetExpenseForm">Clear</button>
+                  <button type="button" class="secondary-btn" id="cancelExpenseForm">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <section class="view" id="roommates-view">
+            <div class="page-header">
+              <div>
+                <p class="eyebrow">People in your room</p>
+                <h3>Roommates</h3>
+              </div>
+            </div>
+
+            <div class="content-grid two-col">
+              <div class="panel form-panel">
+                <h4>Add Roommate</h4>
+                <form id="roommateForm" class="stacked-form small-form">
+                  <input type="hidden" name="roommateId" />
+                  <label>
+                    <span>Name</span>
+                    <input name="name" type="text" placeholder="Full name" required />
+                  </label>
+                  <label>
+                    <span>Email</span>
+                    <input name="email" type="email" placeholder="name@example.com" />
+                  </label>
+                  <div class="form-actions">
+                    <button type="submit" class="primary-btn">Save Roommate</button>
+                    <button type="button" class="secondary-btn" id="cancelRoommateEdit">Cancel</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="roommate-list-panel">
+                <label class="search-box">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input id="roommateSearch" type="search" aria-label="Search roommates" placeholder="Search roommates" />
+                </label>
+                <div id="roommatesList" class="roommates-grid"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="view" id="settlements-view">
+            <div class="page-header">
+              <div>
+                <p class="eyebrow">Bookkeeping</p>
+                <h3>Settlements</h3>
+              </div>
+            </div>
+
+            <div id="settlementsSummary" class="settlement-summary"></div>
+            <div id="settlementList" class="settlement-list"></div>
+            <div class="panel settlement-history-panel">
+              <div class="panel-header"><h3>Settlement History</h3></div>
+              <div id="settlementHistory" class="settlement-list"></div>
+            </div>
+          </section>
+
+          <section class="view" id="analytics-view">
+            <div class="page-header">
+              <div>
+                <p class="eyebrow">Insights</p>
+                <h3>Analytics</h3>
+              </div>
+            </div>
+
+            <div id="analyticsStats" class="stats-grid mini-grid"></div>
+
+            <div class="content-grid two-col">
+              <div class="panel chart-panel">
+                <div class="panel-header">
+                  <h3>Category Breakdown</h3>
+                </div>
+                <div class="chart-wrap chart-md">
+                  <canvas id="categoryChart"></canvas>
+                </div>
+              </div>
+
+              <div class="panel chart-panel">
+                <div class="panel-header">
+                  <h3>Monthly Spending</h3>
+                </div>
+                <div class="chart-wrap chart-md">
+                  <canvas id="monthlyChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel chart-panel">
+              <div class="panel-header">
+                <h3>Recent Spending Trend</h3>
+              </div>
+              <div class="chart-wrap chart-lg">
+                <canvas id="trendChart"></canvas>
+              </div>
+            </div>
+          </section>
+
+          <section class="view" id="monthly-history-view">
+            <div class="page-header">
+              <div>
+                <p class="eyebrow">Spend tracking</p>
+                <h3>Monthly History</h3>
+              </div>
+            </div>
+
+            <div class="panel filter-panel">
+              <div class="filter-row compact-row">
+                <button type="button" class="icon-btn" id="historyPreviousMonth" aria-label="Previous month" title="Previous month">
+                  <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <select id="historyMonthSelect" aria-label="Select month"></select>
+                <button type="button" class="icon-btn" id="historyNextMonth" aria-label="Next month" title="Next month">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <button type="button" class="secondary-btn" id="exportMonthlyReportBtn">
+                  <i class="fa-solid fa-download"></i> Export report
+                </button>
+              </div>
+            </div>
+
+            <div id="historyStats" class="stats-grid mini-grid"></div>
+
+            <div class="table-wrap panel">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Expense</th>
+                    <th>Category</th>
+                    <th>Paid By</th>
+                    <th>Amount</th>
+                    <th>Split</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="view" id="settings-view">
+            <div class="page-header">
+              <div>
+                <p class="eyebrow">Preferences</p>
+                <h3>Settings</h3>
+              </div>
+            </div>
+
+            <div class="panel form-panel">
+              <form id="settingsForm" class="stacked-form">
+                <div class="form-grid two-col">
+                  <label>
+                    <span>User Name</span>
+                    <input name="userName" type="text" required />
+                  </label>
+
+                  <label>
+                    <span>Hostel / Room Name</span>
+                    <input name="hostelName" type="text" required />
+                  </label>
+
+                  <label>
+                    <span>Currency</span>
+                    <select name="currency">
+                      <option value="₹">₹ INR</option>
+                      <option value="$">$ USD</option>
+                      <option value="€">€ EUR</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Monthly Spending Budget</span>
+                    <input name="monthlyBudget" type="number" min="0.01" step="0.01" required />
+                  </label>
+
+                  <label class="toggle-field">
+                    <span>Dark Mode</span>
+                    <input id="darkModeToggle" type="checkbox" />
+                  </label>
+
+                  <label class="toggle-field">
+                    <span>Notifications</span>
+                    <input id="notificationToggle" type="checkbox" />
+                  </label>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="primary-btn">Save Settings</button>
+                  <button type="button" class="secondary-btn" id="exportDataBtn">Export Data</button>
+                  <button type="button" class="secondary-btn" id="importDataBtn">Import Data</button>
+                  <input id="importFileInput" type="file" accept="application/json" hidden />
+                </div>
+
+                <button type="button" class="danger-btn" id="resetAllDataBtn">Reset All Data</button>
+              </form>
+            </div>
+          </section>
+
+          <section class="view" id="about-view">
+            <div class="about-hero panel">
+              <div>
+                <p class="eyebrow">About</p>
+                <h3>HostelMate</h3>
+                <p>
+                  HostelMate is a student-focused expense management application designed to make shared hostel expenses simple, transparent and organized.
+                </p>
+              </div>
+            </div>
+
+            <div class="about-grid">
+              <div class="panel">
+                <h4>Project Purpose</h4>
+                <p>
+                  We built HostelMate to help roommates track their daily hostel costs, split shared expenses fairly, and settle balances without confusion.
+                </p>
+              </div>
+
+              <div class="panel">
+                <h4>Features</h4>
+                <ul class="feature-list">
+                  <li>Expense tracking and categorization</li>
+                  <li>Smart splitting between roommates</li>
+                  <li>Settlement and balance management</li>
+                  <li>Monthly and category analytics</li>
+                  <li>Responsive, local-first experience</li>
+                </ul>
+              </div>
+
+              <div class="panel">
+                <h4>Technology Used</h4>
+                <ul class="feature-list">
+                  <li>HTML5</li>
+                  <li>CSS3</li>
+                  <li>Vanilla JavaScript</li>
+                  <li>LocalStorage</li>
+                  <li>Chart.js</li>
+                </ul>
+              </div>
+
+              <div class="panel">
+                <p><strong>Bhuwan Goyal</strong></p>
+                <p>CSE Student</p>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <dialog id="expenseDetailsModal" class="details-modal" aria-labelledby="expenseDetailsTitle">
+      <div class="modal-header">
+        <h3 id="expenseDetailsTitle">Expense details</h3>
+        <button type="button" class="icon-btn" id="closeExpenseDetails" aria-label="Close details">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="expenseDetailsContent" class="modal-content"></div>
+    </dialog>
+
+    <div id="toastContainer" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
